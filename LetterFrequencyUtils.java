@@ -49,7 +49,7 @@ public class LetterFrequencyUtils {
     public static double[] expectedCharacterCounts(int length) {
         double[] expected = new double[ALPHABET_COUNT];
         for (int i = 0; i < ALPHABET_COUNT; i++) {
-            // length * P(i)
+        
             expected[i] = (length * (FREQUENCIES[i] / 100));
         }
         return expected;
