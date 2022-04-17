@@ -89,4 +89,10 @@ public class LetterFrequencyUtils {
         double[] expectedCharacterCounts = LetterFrequencyUtils.expectedCharacterCounts(ciphertext.length());
 
         double fitness = 0.0;
-
+    for (int i = 0; i < LetterFrequencyUtils.ALPHABET_COUNT; i++) {
+           
+            fitness += Math.pow(characterCounts[i] - expectedCharacterCounts[i], 2) / expectedCharacterCounts[i];
+        }
+        return fitness;
+    }
+}
