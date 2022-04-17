@@ -46,3 +46,47 @@ public class LetterFrequencyUtils {
             counts[c - 'A']++;
         return counts;
     }
+    public static double[] expectedCharacterCounts(int length) {
+        double[] expected = new double[ALPHABET_COUNT];
+        for (int i = 0; i < ALPHABET_COUNT; i++) {
+            // length * P(i)
+            expected[i] = (length * (FREQUENCIES[i] / 100));
+        }
+        return expected;
+    }
+
+
+    public static boolean closeToEng(double indexOfCoincidence) {
+        return ENG_IC_LOWER_BOUND < indexOfCoincidence && indexOfCoincidence < ENG_IC_UPPER_BOUND;
+    }
+
+
+    public static double indexOfCoincidence(String text) {
+
+     
+        text = text.replaceAll("[^a-zA-Z]", "").toUpperCase();
+        if (text.length() < 1) return -1;
+      
+        int[] counts = LetterFrequencyUtils.countCharacters(text);
+
+        double sum = 0.0;
+  
+        for (int i = 0; i < LetterFrequencyUtils.ALPHABET_COUNT; i++) {
+            double fi = counts[i];
+            if (fi > 0.0)
+                sum += fi * (fi - 1.0);
+        }
+       
+        return sum / (text.length() * (text.length() - 1));
+    }
+
+
+    public static double chiSquareAgainstEnglish(String ciphertext) {
+        ciphertext = ciphertext.replaceAll("[^a-zA-Z]", "");
+      
+        int[] characterCounts = LetterFrequencyUtils.countCharacters(ciphertext);
+       
+        double[] expectedCharacterCounts = LetterFrequencyUtils.expectedCharacterCounts(ciphertext.length());
+
+        double fitness = 0.0;
+
